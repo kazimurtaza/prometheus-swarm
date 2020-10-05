@@ -1,10 +1,4 @@
 version: '3.2'
-volumes:  
-  grafana_data:
-    driver_opts:
-      type: "nfs"
-      o: "addr=192.168.1.3,rw,nolock,hard"
-      device: ":/multimedia/projectAutomata/prometheus/grafana"
 services:
   prometheus:
     image: prom/prometheus:latest
@@ -121,23 +115,4 @@ services:
       placement:
         constraints:
           - "node.role==worker"
-    restart: always
-
-  grafana:
-    container_name: grafana
-    image: grafana/grafana
-    depends_on:
-      - prometheus
-    ports:
-      - 3100:3000
-    volumes:
-      - "/home/murtaza/prometheus/grafana/config/:/var/lib/grafana/"
-      - "/home/murtaza/prometheus/grafana/provisioning/:/etc/grafana/provisioning/"
-    deploy:
-      placement:
-        constraints:
-          - "node.role==worker"
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=foobar
-    user: "472"
     restart: always
